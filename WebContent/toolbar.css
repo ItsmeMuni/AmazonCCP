@@ -1,0 +1,167 @@
+/* to be removed */
+body {padding:0; margin:0; background: #aaa;}
+/* end to be removed */
+
+.displayNone {display: none;}
+#overallCallControls div.displayNone { display: none; }
+.hidden {position:absolute; left: -9999px;}
+
+/* -- container styles ------------ */
+/* adjust the font-size on #CTItoolbar to set the font size for the whole container - set as em and adjust until result is 10px */
+#CTItoolbar { background: url('../images/header_bg.png') left bottom repeat-x #fff; padding: 10px 10px 20px 10px; font-size: 10px; position: relative; }
+#CTItoolbar, #CTItoolbar select, #CTItoolbar input { font-family: Arial, Helvetica, sans-serif; }
+#CTItoolbarBg { width: 1580px; /*with padding from #CTItoolbar 1600px*/ overflow: auto; }
+
+#status { width: 280px; /*300px with padding*/ padding: 10px; float: left; }
+#customerBar { width: 1260px; padding: 0; float: right; background: url('../customer_bg.jpg') left bottom no-repeat; }
+#customerDetails { overflow: auto; position: relative; margin: 0; padding: 10px 80px 0 10px; /*80px allows space for ID&V positioned absolute*/  background: url('../images/customer_bar_bg_top.png') left top no-repeat; }
+#overallCallControls { background: url('../images/callControl_top_border.png') left top repeat-x; padding: 10px 0; margin: 0 10px; }
+
+#noCustomerText { width: 1240px; padding: 10px; min-height: 120px; font-size: 3em; position: relative; background: url('../images/customer_bar_bg_top.png') left top no-repeat; }
+#noCustomerText strong { font-weight: normal; color: #505050; position: absolute; top: 55px; left: 20px; }
+
+#errorMessageDiv { position: absolute; bottom: 45px; left: 325px; padding: 10px; border:1px solid #D30000; background-color: #FCF3F3; z-index: 10; }
+#errorMessageDiv strong { color:#d30000; font-size: 1.2em; padding: 0 0 0 21px; background: url('../images/error_marker.gif') left center no-repeat; }
+
+/* -- END container styles -- */
+
+/* -- status content styles ------------ */
+
+/*background and icon for the currentStatus message*/
+#currentStatus { display: block; margin: 0 0 10px 0; padding: 13px 5px 13px 47px; font-size: 1.6em; border-width: 1px; border-style: solid; border-radius: 8px; }
+#currentStatus.onCall { border-color: #d30000; background: url('../images/on_call_icon.png') no-repeat 5px center #fcf3f3; }
+#currentStatus.receivingCall { border-color: #d30000; background: url('../images/receiving_call_icon.gif') no-repeat 3px center #fcf3f3; }
+#currentStatus.busy { border-color: #d30000; background: url('../images/receiving_call_icon.gif') no-repeat 3px center #fcf3f3; }
+#currentStatus.dialingCall { border-color: #d30000; background: url('../images/receiving_call_icon.gif') no-repeat 3px center #fcf3f3; }
+#currentStatus.available { border-color: #7FE57F; background: url('../images/available_icon.png') no-repeat 5px center #d9ecd9; }
+#currentStatus.notLinked { border-color: #F4CA00; background: url('../images/warning_prompt.png') no-repeat 5px center #FEF67F; }
+#currentStatus.error { border-color: #F4CA00; background: url('../images/warning_prompt.png') no-repeat 5px center #000000; color: #F4CA00;}
+#currentStatus.unavailable { border-color: #999; background: url('../images/unavailable.png') no-repeat 5px center #ddd; }
+#currentStatus.wrap { border-color: #999; background: url('../images/wrap_status_icon.png') no-repeat 5px center #ddd; }
+
+/*general rules for the status controls container, which are adjusted based on ID for differences between states*/
+.statusControls, .onCallstatusControls, .callReasonControls { background: #eee; border-radius: 5px; padding: 19px 10px 10px 10px; width: 260px; font-size: 1.4em; }
+.statusControls input.button, .onCallstatusControls input.button, .callReasonControls input.button { font-size: 1.143em; /*works out to 16px*/ margin: 19px 0 0 0; padding: 5px 0; width: 100%; }
+.statusControls input.smallButton { margin: 0; padding: 1px 8px; width: auto; line-height: 1.3em; }
+.statusControls label, .onCallstatusControls label { padding: 8px 0; }
+.statusControls select { width: 200px; }
+.callReasonControls label { width: 65px; padding-top: 2px; display: block; float: left; }
+.callReasonControls select { width: 192px; margin: 0 0 5px 0; }
+
+/*adjustments, all aiming to keep #status height at 185px in IE8 compatibility mode IE7 standards*/
+#notLinkedControls { padding-top: 15px; }
+#confirmLinkControls, #unavailableControls { padding-top: 16px; }
+#availableControls, #afterCallControls { padding-top: 21px; }
+#onCallControls { padding-top: 23px; }
+#onCallControls input.button { margin-top: 23px; }
+#inWrapControls input.smallButton { line-height: 1em; padding: 1px 0; width: 76px; }
+#inWrapControls select { width: 175px; }
+.callReasonControls { padding-top: 8px; }
+.callReasonControls input.button { margin-top: 0px; }
+#changeGatewayButton { margin: 0; padding: 1px 8px; width: 108px; line-height: 1.3em; }
+#gatewayListSelect { width: 195px; }
+#notLinkedStatusButton { padding: 1px 0px; width: 95px; line-height: 1.3em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 10px;}
+#changeUnavailableReasonButton { padding: 1px 0px; width: 145px; line-height: 1.3em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 29px;}
+#cancelChangeUnavailableReasonButton { padding: 1px 0px; width: 80px; line-height: 1.3em; margin-top: 17px; margin-right: 0px; margin-bottom: 14px; margin-left: 0px;}
+#confirmChangeUnavailableReasonButton { padding: 1px 0px; width: 145px; line-height: 1.3em; margin-top: 17px; margin-right: 0px; margin-bottom: 14px; margin-left: 28px;}
+
+/*rules for the display of the wrap status message in status call controls*/
+#onCallControls #newWrapStatus { display: none; }
+#onCallControls.showMessage #newWrapStatus { display: block; }
+#newWrapStatus { font-size: 0.9em; background: url('../images/warning_prompt_small.png') no-repeat 5px center #FEF67F; padding: 2px 2px 2px 26px; border: 1px solid #F4CA00; margin: 9px 0 0; }
+#onCallControls.showMessage { padding-top: 10px; }
+#onCallControls.showMessage input.button { margin-top: 5px; }
+
+/*putting the icon on the afterCallStatus label*/
+#afterCallStatus { padding-left: 30px; background-position: left center; background-repeat: no-repeat; }
+#afterCallStatus.available{ background-image: url('../images/available_icon_small.png'); }
+#afterCallStatus.unavailable{ background-image: url('../images/unavailable_small.png'); }
+#afterCallStatus.wrap{ background-image: url('../images/wrap_status_icon_small.png'); }
+
+/* -- END status content styles -- */
+
+/* -- customerDetails content styles ------------ */
+
+#customerDetails ul { list-style: none; margin: 0; padding: 0; float: left; }
+#customerDetails li { float: left; display: inline; }
+#customerDetails #aboutTheCall { width: 338px; padding: 0 0 1.6em 0; margin-right: 20px; }
+#customerDetails #aboutTheCustomer { width: 810px; }
+#customerDetails #warningMarkersDIV { width: 810px; padding: 5px 0 10px 0; min-height: 15px; }
+
+/*brand icon*/
+#brandDIV { width: 336px; height: 53px; padding: 0 0 10px 0; border: 1px solid #fff; text-indent: -1000px; background-color: #fff; background-repeat: no-repeat; }
+#brandDIV.RBS { background-image: url('../images/brands/RBS_logo.png'); }
+#brandDIV.RBI { background-image: url('../images/brands/RBI_logo.png'); }
+#brandDIV.NWB { background-image: url('../images/brands/NWB_logo.png'); }
+#brandDIV.UBR, #brandDIV.UBN { background-image: url('../images/brands/ULB_logo.png'); }
+#brandDIV.IOM { background-image: url('../images/brands/IOM_logo.png'); }
+#brandDIV.NWO { background-image: url('../images/brands/NWO_logo.png'); }
+
+/*proposition and IVR drop out reason*/
+#propositionDIV, #dropOutMessageDiv { padding: 0 0 10px 10px; width: 326px; background: #fff; border: 1px solid #fff; }
+#propositionDIV { padding: 0 0 3px 10px; }
+#propositionDIV span, #dropOutMessageDiv div, #dropOutMessageDiv span { font-size: 1.3em; color: #505050; width: 68px; display: block; float: left; }
+#propositionDIV span.data { color: #000; display: inline; float: none; width: auto; }
+#dropOutMessageDiv span.data { color: #000; display: inline; width: auto; }
+
+/* general styles for about the aboutTheCustomer lis, adjustments for some items appear after */
+#customerDetails #aboutTheCustomer li { font-size: 1.3em; color: #505050; margin: 0.2em 20px 0 0; }
+#customerDetails #aboutTheCustomer li span { color: #000; letter-spacing: 0.1em; margin: 0 0 0 0.2em; }
+
+/*customer name*/
+#customerDetails #aboutTheCustomer #customerName { width: 810px; color: #000; display: inline; font-size: 1.8em; margin: 3px 0 3px 0; }
+
+/*prefered name*/
+#customerDetails #aboutTheCustomer #prefersDIV { font-size: 1.6em; color: #505050; clear: both; width: 810px; padding: 0 0 10px 0; margin: 0 0 0 0; }
+#customerDetails #aboutTheCustomer #prefersDIV span { color: #000; letter-spacing: normal; margin: 0; }
+
+/*ID and V status*/
+#customerDetails ul #idLevelDIV { position: absolute; right: 10px; top: 10px; width: 60px; margin: 0; padding: 14px 0; font-size: 1.5em; border: 1px solid #eff4fb; border-top: 1px solid #aaa; border-left: 1px solid #aaa; background: #ebf1fb; text-align: center; }
+#customerDetails ul #idLevelDIV #idLabel { margin: 0; color: #505050; letter-spacing: normal; }
+#customerDetails ul #idLevelDIV #idValue { color: #000; font-size: 1.2em; /*works out as 1.8, 1.2 time 1.5*/ display: block; margin: 4px 0 0 0; letter-spacing: normal; }
+#customerDetails ul #idLevelDIV #idLevelDIV.notPresent #idLabel { display: none; }
+#customerDetails ul #idLevelDIV #idLevelDIV.notPresent #idValue { font-size: 1.4em; line-height: 1.4em; }
+
+/*warning markers*/
+#warningMarkersDIV li { font-size: 1.3em; display: block; white-space: nowrap; float: left; font-weight: bold; padding: 1px 0 1px 21px; margin: 5px 20px 0 0; background: url('../images/warning_prompt_small.png') left center no-repeat; }
+
+/* -- END customerDetails content styles -- */
+
+/* -- overallCallControls content styles ----------- */
+
+/*general element styles*/
+#overallCallControls { min-height: 25px; }
+#overallCallControls div {  }
+#overallCallControls h4 { margin: 0; font-size: 1.3em; font-weight: normal; color: #505050; display: inline; }
+#overallCallControls input { margin: 0 20px 0 0; padding: 0 20px;}
+#overallCallControls select { margin: 0 5px 0 0; width:; }
+
+/*container styles*/
+#callControls { width: 740px; float: left; }
+#callControls2 { width: 340px; float: right; }
+#callControlConference { width: 130px; float: left; }
+#outBoundCallControls { padding: 0 0 0 35px; background: url('../images/small_phone-icon.png') 5px center no-repeat; }
+
+/*call timers*/
+#overallCallControls p.timer { display: inline; margin: 0 35px 0 10px; vertical-align: middle; }
+#overallCallControls p.timer strong { font-size: 1.6em; color: #505050; }
+#overallCallControls p.timer strong.red { font-size: 1.6em; color: #FF0000; }
+
+
+/*link styles*/
+#speedDialLink, #clearOutboundBoxLink { color: #003366; }
+#speedDialLink { font-size: 1.3em; } /*font-size only set for speed dial as clear is with a paragraph*/
+#clearOutboundBoxLink { margin-left: 16px; }
+#speedDialLink:hover, #speedDialLink:active, #speedDialLink:focus, #clearOutboundBoxLink:hover, #clearOutboundBoxLink:active, #clearOutboundBoxLink:focus { text-decoration: none; color: #000; }
+
+/*adjust the padding for text input*/
+#overallCallControls input#transferInputBox, #overallCallControls input#dialNumberInputBox { padding: 0; letter-spacing: 0.1em; }
+
+/*disabled input box, actually a paragraph styled, contrast levels on disabled field are too low*/
+#dialNumberDisabledInputBox { display: inline; font-size: 1.3em; padding: 2px 8px; margin: 0 20px 0 0; border: 1px solid #eff4fb; border-top: 1px solid #aaa; border-left: 1px solid #aaa; background: #ebf1fb; }
+#dialNumberDisabledInputBox span.data { font-weight: bold; letter-spacing: 0.1em; }
+
+/*data loss message*/
+#dialWarningMsg { font-size: 1.3em; color: #505050; padding: 0 0 0 21px; margin: 0 20px 0 0; background: url('../images/warning_prompt_small.png') left center no-repeat; }
+
+/* -- END overallCallControls content styles -- */

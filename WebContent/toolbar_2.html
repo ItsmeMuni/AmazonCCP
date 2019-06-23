@@ -1,0 +1,749 @@
+<!--<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
+
+<!-- doctype declaration has been dropped to trigger quirks mode, to match Chordiant -->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<script src="amazon-connect-1.3.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<style>
+/* to be removed */
+body {
+	padding: 0;
+	margin: 0;
+	background: #aaa;
+}
+/* end to be removed */
+.displayNone {
+	display: none;
+}
+
+#overallCallControls div.displayNone {
+	display: none;
+}
+
+.hidden {
+	position: absolute;
+	left: -9999px;
+}
+
+/* -- container styles ------------ */
+/* adjust the font-size on #CTItoolbar to set the font size for the whole container - set as em and adjust until result is 10px */
+#CTItoolbar {
+	background: url('../images/header_bg.png') left bottom repeat-x #fff;
+	padding: 10px 10px 20px 10px;
+	font-size: 10px;
+	position: relative;
+}
+
+#CTItoolbar, #CTItoolbar select, #CTItoolbar input {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#CTItoolbarBg {
+	width: 1580px; /*with padding from #CTItoolbar 1600px*/
+	overflow: auto;
+}
+
+#status {
+	width: 280px; /*300px with padding*/
+	padding: 10px;
+	float: left;
+}
+
+#customerBar {
+	width: 1260px;
+	padding: 0;
+	float: right;
+	background: url('../images/customer_bar_bg_b.png') left bottom no-repeat;
+}
+
+#customerDetails {
+	overflow: auto;
+	position: relative;
+	margin: 0;
+	padding: 10px 80px 0 10px;
+	/*80px allows space for ID&V positioned absolute*/
+	background: url('../images/customer_bar_bg_top.png') left top no-repeat;
+}
+
+#overallCallControls {
+	background: url('../images/callControl_top_border.png') left top repeat-x;
+	padding: 10px 0;
+	margin: 0 10px;
+}
+
+#noCustomerText {
+	width: 1240px;
+	padding: 10px;
+	min-height: 120px;
+	font-size: 3em;
+	position: relative;
+	background: url('../images/customer_bar_bg_top.png') left top no-repeat;
+}
+
+#noCustomerText strong {
+	font-weight: normal;
+	color: #505050;
+	position: absolute;
+	top: 55px;
+	left: 20px;
+}
+
+#errorMessageDiv {
+	position: absolute;
+	bottom: 45px;
+	left: 325px;
+	padding: 10px;
+	border: 1px solid #D30000;
+	background-color: #FCF3F3;
+	z-index: 10;
+}
+
+#errorMessageDiv strong {
+	color: #d30000;
+	font-size: 1.2em;
+	padding: 0 0 0 21px;
+	background: url('../images/error_marker.gif') left center no-repeat;
+}
+
+/* -- END container styles -- */
+
+/* -- status content styles ------------ */
+
+/*background and icon for the currentStatus message*/
+#currentStatus {
+	display: block;
+	margin: 0 0 10px 0;
+	padding: 13px 5px 13px 47px;
+	font-size: 1.6em;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 8px;
+	border-color: #7FE57F;
+	background: no-repeat 5px center
+		#d9ecd9;
+}
+
+
+/*general rules for the status controls container, which are adjusted based on ID for differences between states*/
+.statusControls, .onCallstatusControls, .callReasonControls {
+	background: #eee;
+	border-radius: 5px;
+	padding: 10px 10px 10px 10px;
+	width: 260px;
+	font-size: 1.4em;
+}
+
+.statusControls input.button, .onCallstatusControls input.button,
+	.callReasonControls input.button {
+	font-size: 1.143em; /*works out to 16px*/
+	margin: 19px 0 0 0;
+	padding: 5px 0;
+	width: 100%;
+}
+
+.statusControls input.smallButton {
+	margin: 0;
+	padding: 1px 8px;
+	width: auto;
+	line-height: 1.3em;
+}
+
+.statusControls label, .onCallstatusControls label {
+	padding: 8px 0;
+}
+
+.statusControls select {
+	width: 200px;
+}
+
+
+/*adjustments, all aiming to keep #status height at 185px in IE8 compatibility mode IE7 standards*/
+#notLinkedControls {
+	padding-top: 15px;
+}
+
+#unavailableControls {
+	padding-top: 16px;
+}
+
+#availableControls {
+	padding-top: 21px;
+}
+
+
+/*rules for the display of the wrap status message in status call controls*/
+
+/* -- END status content styles -- */
+
+/* -- customerDetails content styles ------------ */
+#customerDetails ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+
+#customerDetails li {
+	float: left;
+	display: inline;
+}
+
+#customerDetails #aboutTheCall {
+	width: 338px;
+	padding: 0 0 1.6em 0;
+	margin-right: 20px;
+}
+
+#customerDetails #aboutTheCustomer {
+	width: 810px;
+}
+
+#customerDetails #warningMarkersDIV {
+	width: 810px;
+	padding: 5px 0 10px 0;
+	min-height: 15px;
+}
+
+/*brand icon*/
+#brandDIV {
+	width: 336px;
+	height: 53px;
+	padding: 0 0 10px 0;
+	border: 1px solid #fff;
+	text-indent: -1000px;
+	background-color: #fff;
+	background-repeat: no-repeat;
+	background-image: url('../images/RBS_logo.png');
+}
+
+
+/*proposition and IVR drop out reason*/
+#propositionDIV, #dropOutMessageDiv {
+	padding: 0 0 10px 10px;
+	width: 326px;
+	background: #fff;
+	border: 1px solid #fff;
+}
+
+#propositionDIV {
+	padding: 0 0 3px 10px;
+}
+
+#propositionDIV span, #dropOutMessageDiv div, #dropOutMessageDiv span {
+	font-size: 1.3em;
+	color: #505050;
+	width: 68px;
+	display: block;
+	float: left;
+}
+
+#propositionDIV span.data {
+	color: #000;
+	display: inline;
+	float: none;
+	width: auto;
+}
+
+#dropOutMessageDiv span.data {
+	color: #000;
+	display: inline;
+	width: auto;
+}
+
+/* general styles for about the aboutTheCustomer lis, adjustments for some items appear after */
+#customerDetails #aboutTheCustomer li {
+	font-size: 1.3em;
+	color: #505050;
+	margin: 0.2em 20px 0 0;
+}
+
+#customerDetails #aboutTheCustomer li span {
+	color: #000;
+	letter-spacing: 0.1em;
+	margin: 0 0 0 0.2em;
+}
+
+/*customer name*/
+#customerDetails #aboutTheCustomer #customerName {
+	width: 810px;
+	color: #000;
+	display: inline;
+	font-size: 1.8em;
+	margin: 3px 0 3px 0;
+}
+
+/*prefered name*/
+#customerDetails #aboutTheCustomer #prefersDIV {
+	font-size: 1.6em;
+	color: #505050;
+	clear: both;
+	width: 810px;
+	padding: 0 0 10px 0;
+	margin: 0 0 0 0;
+}
+
+#customerDetails #aboutTheCustomer #prefersDIV span {
+	color: #000;
+	letter-spacing: normal;
+	margin: 0;
+}
+
+/*ID and V status*/
+#customerDetails ul #idLevelDIV {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 60px;
+	margin: 0;
+	padding: 14px 0;
+	font-size: 1.5em;
+	border: 1px solid #eff4fb;
+	border-top: 1px solid #aaa;
+	border-left: 1px solid #aaa;
+	background: #ebf1fb;
+	text-align: center;
+}
+
+#customerDetails ul #idLevelDIV #idLabel {
+	margin: 0;
+	color: #505050;
+	letter-spacing: normal;
+}
+
+#customerDetails ul #idLevelDIV #idValue {
+	color: #000;
+	font-size: 1.2em; /*works out as 1.8, 1.2 time 1.5*/
+	display: block;
+	margin: 4px 0 0 0;
+	letter-spacing: normal;
+}
+
+#customerDetails ul #idLevelDIV #idLevelDIV.notPresent #idLabel {
+	display: none;
+}
+
+#customerDetails ul #idLevelDIV #idLevelDIV.notPresent #idValue {
+	font-size: 1.4em;
+	line-height: 1.4em;
+}
+
+/*warning markers*/
+#warningMarkersDIV li {
+	font-size: 1.3em;
+	display: block;
+	white-space: nowrap;
+	float: left;
+	font-weight: bold;
+	padding: 1px 0 1px 21px;
+	margin: 5px 20px 0 0;
+	background: url('../images/warning_prompt_small.png') left center
+		no-repeat;
+}
+
+/* -- END customerDetails content styles -- */
+
+/* -- overallCallControls content styles ----------- */
+
+/*general element styles*/
+#overallCallControls {
+	height: 45px;
+}
+
+#overallCallControls div {
+	
+}
+
+
+
+
+
+
+/*container styles*/
+#callControls {
+	width: 740px;
+	float: left;
+}
+
+
+
+/*adjust the padding for text input*/
+
+
+/*general element styles*/
+#overallCallControls div {  }
+
+
+
+.topnav {
+	overflow: hidden;
+	background-color: #14366E;
+}
+
+.topnav a {
+	float: left;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 5px 10px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.topnav a:hover {
+	background-color: #ddd;
+	color: black;
+}
+/* CCS for hiding the amazon CCP*/
+#ccpContainer {
+	width: 320px;
+	height: 465px;
+	overflow: hidden;
+	float: left;
+	margin-left: 22px;
+	padding: 25px;
+}
+
+.callControls input.smallButton {
+	margin: 0;
+	padding: 1px 8px;
+	width: auto;
+	line-height: 1.3em;
+}
+/* -- END overallCallControls content styles -- */
+</style>
+</head>
+<body>
+	<div class="topnav">
+		<a class="active" href="#Customers">Customers</a> <a href="#Tools">Tools</a>
+		<a
+			id="agentName" style="float:right; font-weight:bold"></a>
+			
+	</div>
+	<!-- CTI toolbar -->
+	<h1 class="hidden">Telephony Toolbar</h1>
+	<div id="CTItoolbar">
+		<div id="CTItoolbarBg">
+			<div id="status">
+				<h2 class="hidden">Your status</h2>
+				<span id="currentStatus"> Not Logged In</span>
+
+				<h2 class="hidden">Change your status</h2>
+
+				
+				<div id="unavailableControls" class="statusControls ">
+					<input class="button displayNone" type="button" id="startReceivingCallsButton"
+						title="Start receiving calls" value="Start receiving calls" onclick="goAvailable()" />
+						<input class="button displayNone" type="button" id="stopReceivingCallsButton"
+						title="Stop calls" value="Stop calls" onclick="goOffline()"></input>
+				</div>
+				
+				
+
+			</div>
+			<div id="customerBar">
+				<!-- customer bar -->
+
+				<div id="errorMessageDiv" class="displayNone">
+					<h2 class="hidden">Phone error</h2>
+					<strong> </strong>
+				</div>
+
+				<!-- if no customer is in context show this -->
+				<div id="noCustomerText" >
+					<h2 id="noCustomerHeading" class="hidden">No customer</h2>
+					<strong>No customer</strong>
+				</div>
+
+				<!-- customer details section -->
+				<div id="customerDetails" class="displayNone">
+
+
+					<h2 class="hidden">About the call</h2>
+					<ul id="aboutTheCall">
+						<li id="brandDIV"></li>
+						<li id="propositionDIV"><span>Service </span><span
+							class="data" ><p id="ServiceValue"></p></span></li>
+						<li id="dropOutMessageDiv"><span>Intent </span><span
+							class="data" id="IntentValue"></span></li>
+					</ul>
+
+
+					<h2 class="hidden">About the customer</h2>
+					<ul id="aboutTheCustomer">
+						<li id="customerName"></li>
+						<li id="prefersDIV">Prefers <span id="prefersValue"></span></li>
+						<li id="idLevelDIV"><span id="idLabel">ID&amp;V</span><span
+							id="idValue"></span></li>
+						<li id="cinDIV">CIN <span id="cinValue"></span></li>
+						<li id="dialNo">Dial Number <span id="dnoValue"></span></li>
+
+					</ul>
+
+
+					<h2 class="hidden">Customer warning markers</h2>
+					<ul id="warningMarkersDIV" class="xdisplayNone">
+					</ul>
+
+				</div>
+				<!-- END customer bar -->
+
+						
+				<div id="overallCallControls">
+
+
+					<!-- call controls Line 1-->
+					<div id="callControls" >
+						<h2 class="hidden">Call controls</h2>
+						<input id="holdButton" class="displayNone smallButton"
+							type="button" value="Hold" title="Hold" /> <input
+							id="resumeButton" class="displayNone smallButton"
+							type="button" value="Resume" title="Resume" /> <input
+							id="answerButton" class="displayNone smallButton"
+							type="button" value="Answer" title="Answer" onclick="acceptContact()" /> <input
+							id="rejectButton" class="displayNone smallButton"
+							type="button" value="Reject" title="Reject" /> <input
+							id="transferButtonC" class="displayNone smallButton"
+							type="button" value="Transfer" title="Transfer" /> <input
+							id="releaseButton" class="displayNone smallButton"
+							type="button" value="End" title="End" onclick="disconnectContact()" />
+</div>
+
+					</div>
+
+				
+
+			</div>
+		</div>
+		</div>
+		<div id="UI_Page" style="display:none;">
+		<iframe id="pageFrame" src="Segment_Final.htm" width=100% height=520  ></iframe>
+	</div>
+		<section id="ccpContainer"
+			style="width: 320px; min-width: 200px; height: 465px; min-height: 400px; display: none;">
+			<script type="text/javascript">
+				var container = document.getElementById("ccpContainer");
+				window.myCPP = window.myCPP || {};
+
+				connect.core
+						.initCCP(
+								container,
+								{
+									ccpUrl : 'https://telephonycustomccp.awsapps.com/connect/ccp#/',
+									loginPopup : false,
+									softphone : {
+										allowFramedSoftphone : true,
+										disableRingtone : false
+									}
+								})
+
+				connect.contact(contactEvents);
+				connect.agent(agentEvents);
+
+				function agentEvents(agent) {
+					console.log(agent.getState().name);
+					console.log(agent.getConfiguration().name);
+					window.myCPP.agent = agent;
+					document.getElementById("agentName").innerHTML = "Welcome "+ agent.getConfiguration().name+"    ";
+					goOffline();
+					agent.onRefresh(agentOnRefreshEvents);
+
+				}
+				function goAvailable() {
+					console.log("Entered GoAvailable");
+					var routableState = window.myCPP.agent
+							.getAgentStates()
+							.filter(
+									function(state) {
+										return state.type === connect.AgentStateType.ROUTABLE;
+									})[0];
+					window.myCPP.agent
+							.setState(
+									routableState,
+									{
+										success : function() {
+											logInfoMsg("Set agent status to Available (routable) via Streams")
+											/*document.getElementById("startReceivingCallsButton").style.display = "block";
+											document.getElementById("stopReceivingCallsButton").style.display = "none";*/
+										},
+										failure : function() {
+											logInfoMsg("Failed to set agent status to Available (routable) via Streams")
+										}
+									});
+				}
+
+				function goOffline() {
+					console.log("Entered goOffline");
+					var offlineState = window.myCPP.agent
+							.getAgentStates()
+							.filter(
+									function(state) {
+										return state.type === connect.AgentStateType.OFFLINE;
+									})[0];
+					window.myCPP.agent
+							.setState(
+									offlineState,
+									{
+										success : function() {
+											logInfoMsg("Set agent status to Offline via Streams")
+											/*document.getElementById("stopReceivingCallsButton").style.display = "block";
+											document.getElementById("startReceivingCallsButton").style.display = "none";*/
+										},
+										failure : function() {
+											logInfoMsg("Failed to set agent status to Offline via Streams")
+										}
+									});
+				}
+
+				function contactEvents(contact) {
+					console.log(contact.getContactId());
+					window.myCPP.contact = contact;
+					console.log(JSON.stringify(contact.getAttributes()));
+
+					console.log(contact.getQueue().name);
+					contact.onRefresh(contactRefreshEvents);
+					contact
+							.onConnecting(function(contact) {
+								console.log("Invoked On Connecting");
+								//Call Controls Display Settings
+								document.getElementById("answerButton").style.display = "inline-block";
+								document.getElementById("holdButton").style.display = "none";
+								document.getElementById("resumeButton").style.display = "none";
+								document.getElementById("transferButtonC").style.display = "none";
+								document.getElementById("releaseButton").style.display = "none";
+								
+								//container display settings
+								
+								document.getElementById("customerDetails").style.display = "block";
+								document.getElementById("noCustomerText").style.display = "none";
+																
+								//Customer Details 
+								document.getElementById("IntentValue").innerHTML = contact.getAttributes().Intent.value;
+								document.getElementById("ServiceValue").innerHTML = contact.getQueue().name;
+								document.getElementById("dnoValue").innerHTML =  contact.getActiveInitialConnection()
+											.getEndpoint().phoneNumber;
+								document.getElementById("customerName").innerHTML = contact.getAttributes().Name.value;
+								document.getElementById("cinValue").innerHTML = contact.getAttributes().CIN.value;
+								
+								
+							});
+				}
+
+				function contactRefreshEvents(contact) {
+
+					contact
+							.onAccepted(function(contact) {
+								console.log("EnteredOnAccepted");
+								document.getElementById("AgentState").innerHTML = "Connecting";
+
+							});
+					contact
+							.onConnected(function(contact) {
+								console.log("EnteredOnconnected");
+
+								//Call Controls Display Settings
+								document.getElementById("answerButton").style.display = "none";
+								document.getElementById("holdButton").style.display = "inline-block";
+								document.getElementById("resumeButton").style.display = "none";
+								document.getElementById("transferButtonC").style.display = "inline-block";
+								document.getElementById("releaseButton").style.display = "inline-block";
+								
+								document.getElementById("UI_Page").style.display = "block";
+							
+							});
+					contact.onEnded(function(contact) {
+						console.log("Entered On Ended");
+						reset();
+					});
+
+				}
+
+				function reset() {
+					//Call Controls Display Settings
+					document.getElementById("answerButton").style.display = "none";
+					document.getElementById("holdButton").style.display = "none";
+					document.getElementById("resumeButton").style.display = "none";
+					document.getElementById("transferButtonC").style.display = "none";
+					document.getElementById("releaseButton").style.display = "none";
+					
+					//container display settings
+					
+					document.getElementById("customerDetails").style.display = "none";
+					document.getElementById("noCustomerText").style.display = "block";
+													
+					//Customer Details 
+					document.getElementById("IntentValue").innerHTML = "";
+					document.getElementById("ServiceValue").innerHTML = "";
+					document.getElementById("dnoValue").innerHTML =  "";
+					document.getElementById("customerName").innerHTML = "";
+					document.getElementById("cinValue").innerHTML = "";
+					
+					document.getElementById("UI_Page").style.display = "none";
+				}
+
+				function agentOnRefreshEvents(agent) {
+					document.getElementById("currentStatus").innerHTML = agent
+							.getState().name;
+							agent.onRoutable(function(agent) { 
+							console.log("is routable state");
+							document.getElementById("stopReceivingCallsButton").style.display = "block";
+							document.getElementById("startReceivingCallsButton").style.display = "none";
+							});
+							agent.onOffline(function(agent) { 
+							console.log("is offline state");
+							document.getElementById("stopReceivingCallsButton").style.display = "none";
+							document.getElementById("startReceivingCallsButton").style.display = "block";
+							});
+							agent.onNotRoutable(function(agent) { 
+							console.log("is offline state");
+							document.getElementById("stopReceivingCallsButton").style.display = "none";
+							document.getElementById("startReceivingCallsButton").style.display = "block";
+							});
+				}
+
+				function acceptContact() {
+					console.log("Clicked accept contact")
+					if (window.myCPP.contact) {
+						window.myCPP.contact.accept({
+							success : function() {
+								logMsg("Accepted contact via Streams");
+							},
+							failure : function() {
+								logMsg("Failed to accept contact via Streams");
+
+							}
+
+						});
+					}
+				}
+
+				function disconnectContact() {
+					console.log("Clicked disconnect contact")
+					if (confirm("Are you sure you want to end the call?") == true) {
+						if (window.myCPP.contact) {
+							window.myCPP.contact
+									.getAgentConnection()
+									.destroy(
+											{
+												success : function() {
+													logMsg("Disconnected contact via streams");
+												},
+												failure : function() {
+													logMsg("Failed to disconnect contact via Streams");
+												}
+											});
+						}
+					}
+				}
+			</script>
+		</section>
+</body>
+</html>

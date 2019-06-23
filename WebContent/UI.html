@@ -1,0 +1,452 @@
+<html>
+<head>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/react@15/dist/react.min.js"> </script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.32.4/react-bootstrap.min.js"></script>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+#right{
+float:right;
+}
+#textspace{
+padding-left:12px;
+padding-top:10px;
+
+}
+.topnav {
+  overflow: hidden;
+  background-color: #14366E;
+}
+
+#grey
+{
+
+height:100px;
+width:450px;
+background-color:lightgrey;
+}
+
+#yellow {
+
+height:40px;
+width:450px;
+
+background-color:#FFFF99;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+   .footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height:50px;
+  width: 100%;
+  padding-top:15px;
+  background-color: #14366E;
+  color: white;
+  text-align: center;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+#white{
+background-color: #ffffff;
+height:350px;
+border: 1px solid lightgrey;
+  border-radius: 5px;
+}
+#predict{
+background-color: #ffffff;
+height:350px;
+border: 1px solid lightgrey;
+  border-radius: 5px;
+}
+#blue{
+background-color: #FFFF99;
+height:350px;
+border-style: solid;
+border-width: 1px;
+}
+#fraud{
+height:350px;
+border: 1px solid lightgrey;
+  border-radius: 5px;
+}
+#customer {
+background-color: #ADD8E6;
+height:140px;
+width:1349px;
+}
+#indent{
+ text-indent: 20px;
+}
+
+
+
+
+#history {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#history td, #history th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#history tr:nth-child(even){background-color: #f2f2f2;}
+
+#history tr:hover {background-color: #ddd;}
+
+#history th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #14366E;
+  color: white;
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  float: right;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+</head>
+<body>
+<div id="context">
+</div>
+	<script type="text/babel">
+	class Header extends React.Component {
+
+render(){
+return(<div>
+
+<Activity/>
+
+</div>);
+}
+}
+
+class Toolbar extends React.Component {
+
+render(){
+return(
+<div className="topnav">
+  <a className="active" href="#Customers">Customers</a>
+  <a href="#Tools">Tools</a>
+  <a href="#Desktops">Desktops</a>
+  <a href="#Windows">Windows</a>
+</div>
+);}
+}
+
+class LinkPhone extends React.Component {
+
+render(){
+return(
+<div className = "col-lg-3">
+
+<div id="yellow">
+
+<span>Not Linked to a phone</span>
+
+</div>
+<div id="grey">
+Phone ID: <input type="text" name="fname" width="80%"/>
+ <button>Link to phone</button>
+<br/><br/>
+<center>
+<button>Close Desktop</button>
+</center>
+</div>
+
+</div>);
+}
+}
+
+class CustomerDetails extends React.Component {
+
+render(){
+return(
+<div className="col-lg-4" id="customer">
+<img src="RBS_logo.png"/>
+</div>);
+}
+};
+
+var properties={ name: "Vinoth" ,
+	age: "55",cin: "123456"}
+class Activity extends React.Component{
+render() {
+    return (
+      <div>
+	  <div className="row">
+		<Customer info={properties}/>
+		<History />
+      </div>
+	  <div className="row">
+		<Fraudlent />
+		<Prediction />
+		</div>
+      </div>
+    );
+  }
+
+};
+class Customer extends React.Component {
+  constructor(props) {
+    super(props);
+    
+
+  }
+  render() {
+    return (
+      <div className="col-lg-5" id="white">
+
+<div>
+<br></br>
+
+ <ul className="nav nav-pills nav-stacked">
+    <li className="active"><a href="#">Customer Details</a></li>
+    
+  </ul> </div>
+<br></br>
+ <form id="indent" className="form-inline" role="form">
+
+ CIN:  <input type="text" className="form-control" id="cid" placeholder="Enter CIN" name="cin"></input>
+        
+  <button type="button" className="btn btn-primary mb-2" onClick="">Submit</button>
+<br/>
+
+  </form>
+<br/>
+<div id="indent">
+CIN: {this.props.info.cin}
+</div>
+
+<hr/>
+<div id="indent">
+Name: {this.props.info.name}
+</div>
+
+<hr/>
+<div id="indent">
+ Age: {this.props.info.age}
+ </div>
+<hr/>
+
+</div>
+    );
+  }
+
+};
+class History extends React.Component {
+ 
+  render() {
+  var namesList=[
+ {
+    date: '07-Dec-2019',
+	transactionid: '1234' ,
+	contactMethod: 'TDA' ,
+	service: 'Customer verified - Level 1 via Agent' ,
+ },
+ {
+    date: '07-Dec-2019',
+	transactionid: '1235' ,
+	contactMethod: 'TDA' ,
+	service: 'Customer Located - customer Number' ,
+ }
+].map( ( {date, transactionid, contactMethod, service} ) => {
+    return <tr><td>{date}</td>    <td>{transactionid}</td>    <td>{contactMethod}</td>    <td>{service}</td></tr>
+})
+    return (
+     
+		<div className="col-lg-7" id="white">
+                <div>
+<br></br>
+
+ <ul className="nav nav-pills nav-stacked">
+    <li className="active"><a href="#">History</a></li>
+    
+  </ul> </div><br/>
+<hr/>
+		 <table id="history"><th>Date</th><th>Transaction Id</th><th>Contact Method</th><th>Service</th>
+		 { namesList }</table>
+<hr/>
+		</div>
+    );
+  }
+
+};
+class Fraudlent extends React.Component {
+  constructor() {
+    super();
+    
+    // Initial state
+    this.state = { open: false };
+
+  }
+
+  toggle() {
+    this.setState({
+      open: !this.state.open
+    });
+  }
+  render() {
+    return (
+      <div className={(this.state.open ? 'col-lg-5 alert alert-danger alert-dismissible fade in' : 'col-lg-5 alert alert-success alert-dismissible fade in')} id="fraud">
+	  
+ <ul className="nav nav-pills nav-stacked">
+    <li className="active"><a href="#">Fraudlent Details</a></li>
+<br/>
+<div className="row" id="indent">
+<div className="col-lg-9 alert alert-warning alert-dismissible fade in">
+  <strong>Is the call is suspect as a Fraudulent ?? Click to Audit </strong>
+</div>
+<div className="col-lg-3">
+<label className="switch">
+  <input type="checkbox" onClick={this.toggle.bind(this)}/>
+  <span className="slider round"></span>
+</label>
+</div>
+</div>
+<hr/>  
+
+  </ul> 
+</div>
+
+
+    );
+  }
+
+};
+class Prediction extends React.Component {
+ 
+  render() {
+    return (
+      
+		<div className="col-lg-7" id="predict">
+
+ <div>
+<br></br>
+<ul className="nav nav-pills nav-stacked">
+<li className="active"><a href="#">Prediction</a></li>
+</ul> </div>
+<br/>
+  <span className="label label-warning">Customer Booked a Ticket to Singapore, add travel marker</span>
+<br/><br/>
+<span className="label label-success">Customer opted for Voice bio-metrics</span>
+<hr/>
+<div className="row" >
+<div className="col-lg-3">
+Make a Payment <span className="badge">5</span>
+</div>
+
+<div className="col-lg-3">
+
+Balance Enquiry <span className="badge">10</span>
+</div>
+<div className="col-lg-3">
+
+Fund Transfer <span className="badge">2</span>	
+</div>
+
+</div>
+<hr/>
+</div>
+    );
+  }
+
+};
+class Footer extends React.Component {
+
+render(){
+return(
+<div className="footer">
+  <p>Copyright B) 2019 The Royal Bank Of Scotland</p>
+</div>
+);}
+}
+ReactDOM.render(
+    <Header/>,
+    document.getElementById('context')
+);
+    </script>
+</body>
+</html>

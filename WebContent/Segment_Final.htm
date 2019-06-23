@@ -1,0 +1,749 @@
+
+<html>
+<head>
+
+
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/react@15/dist/react.min.js">
+	
+</script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.32.4/react-bootstrap.min.js"></script>
+<style>
+body {
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#right {
+	float: right;
+}
+
+#textspace {
+	padding-left: 12px;
+	padding-top: 10px;
+}
+
+.topnav {
+	overflow: hidden;
+	background-color: #14366E;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover
+	{
+	background-color: #ccdcff;
+	font-weight: bold;
+	color: black;
+}
+
+#grey {
+	height: 100px;
+	width: 450px;
+	background-color: lightgrey;
+}
+
+#yellow {
+	height: 40px;
+	width: 450px;
+	background-color: #FFFF99;
+}
+
+.topnav a {
+	float: left;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	height: 50px;
+	width: 100%;
+	padding-top: 15px;
+	background-color: #14366E;
+	color: white;
+	text-align: center;
+}
+
+.topnav a:hover {
+	background-color: #ddd;
+	color: black;
+}
+
+#white {
+	height: 350px;
+	border: 1px solid lightgrey;
+	border-radius: 2px;
+}
+
+#predict {
+	height: 350px;
+	border: 1px solid lightgrey;
+	border-radius: 2px;
+}
+
+#blue {
+	background-color: #FFFF99;
+	height: 350px;
+	border-style: solid;
+	border-width: 1px;
+}
+
+#fraud {
+	height: 350px;
+	border: 1px solid lightgrey;
+	border-radius: 2px;
+}
+
+#customer {
+	background-color: #ADD8E6;
+	height: 140px;
+	width: 1349px;
+}
+
+#green {
+	margin-right: auto;
+	padding-left: 0px;
+	padding-right: 30px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+#act {
+	background-color: #ffffff;
+	height: 400px;
+	width: 280px;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid lightgrey;
+	border-radius: 2px;
+}
+
+#npad {
+	background-color: #ffffff;
+	height: 350px;
+	width: 280px;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid lightgrey;
+	border-radius: 2px;
+}
+
+#notepad {
+	background-color: #ffffff;
+	height: 350px;
+	width: 285px;
+	border: 2px solid lightgrey;
+	border-radius: 2px;
+}
+
+#activities {
+	background-color: #ffffff;
+	height: 265px;
+	width: 245px;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid lightgrey;
+	border-radius: 15px;
+}
+
+#check {
+	padding-left: 0px;
+}
+
+#tabs-image {
+	background:
+		url('https://s3.amazonaws.com/telephonycustccp/images/customer_bar_bg_b.png')
+		left top no-repeat;
+	background-color: #ffffff;
+}
+
+#comment {
+	border: 1px solid lightgrey;
+	border-radius: 30px;
+}
+
+a {
+	color: black;
+	font-weight: normal;
+}
+
+#his {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#his td, #his th {
+	border: 1px solid #ddd;
+	font-weight: normal;
+	padding: 8px;
+}
+
+#his tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+#his tr:hover {
+	background-color: #ddd;
+}
+
+#his th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #ccdcff;
+	color: black;
+}
+
+#cust {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #ccdcff;
+	color: black;
+}
+
+.tab-content {
+	margin-left: 14px;
+}
+
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+	float: right;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+input:checked+.slider {
+	background-color: #2196F3;
+}
+
+input:focus+.slider {
+	box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+</style>
+</head>
+<body>
+	<div id="context"></div>
+	<script type="text/babel">
+
+class Header extends React.Component {
+
+render(){
+return(<div>
+
+
+<div className="row" id="indent">
+<div className="col-lg-3" id="check">
+
+<div className="row" id="act">
+<div className="col-lg-12">
+<Offerings />
+</div>
+</div>
+<div className="row" id="npad">
+<div className="col-lg-12">
+<Notepad />
+</div>
+</div>
+</div>
+<div className="col-lg-9">
+<Activity/>
+
+</div>
+
+</div>
+</div>);
+}
+}
+
+class Activity extends React.Component{
+render() {
+    return (
+      <div>
+	  <div id="green">
+<ul className="nav nav-tabs">
+    <li className="active"><a data-toggle="tab" href="#home">Profile</a></li>
+    <li><a data-toggle="tab" href="#menu1">Customer</a></li>
+    <li><a data-toggle="tab" href="#menu2">Account </a></li>
+    <li><a data-toggle="tab" href="#menu3">History</a></li>
+  </ul>
+
+  <div className="tab-content">
+    <div id="home" className="tab-pane fade in active">
+      <div className="row">
+		<Customer/>
+		<Prediction/>
+      </div>
+	  <div className="row">
+		<Fraudlent />
+		<History />
+
+		</div>
+    </div>
+    <div id="menu1" className="tab-pane fade">
+<hr/>
+      Customer Info will be placed here
+    </div>
+    <div id="menu2" className="tab-pane fade">
+<hr/>
+      Account Inforamation will be placed here
+	</div>
+    <div id="menu3" className="tab-pane fade">
+<hr/>
+     History Information will be placed here
+    </div>
+  </div>
+</div>
+
+      </div>
+    );
+  }
+
+};
+class Customer extends React.Component {
+constructor(){
+super();
+this.state = {
+      error: null,
+      isLoaded: false,
+      customers:[]
+    };
+}
+componentDidMount() {
+    fetch('https://54sdbc7ar4.execute-api.us-east-1.amazonaws.com/Dev/customer/1234')
+      .then(results =>{
+	  return results.json();})
+      .then(
+        data => {
+		this.setState({
+            isLoaded: true,
+            customers: data
+          });
+		  },
+		  (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        })
+
+
+		}
+
+
+
+
+   render() {
+    return (
+      <div className="col-lg-6" id="white">
+
+<div>
+<br></br>
+
+ <ul className="nav nav-pills nav-stacked" >
+    <li className="active">  <a href="#">Customer Details</a></li>
+
+  </ul> </div>
+
+<hr/>
+
+<table id="his">
+<tr><td id="cust">
+CIN:
+
+</td>
+
+<td>
+{this.state.customers.id}
+
+</td></tr>
+
+<tr><td id="cust">
+
+Name:
+</td>
+<td>
+
+ {this.state.customers.name}
+
+</td></tr>
+
+<tr><td id="cust">
+
+Address :
+</td>
+<td>
+
+{this.state.customers.addressline1}<br/>
+{this.state.customers.town}<br/>
+{this.state.customers.city}<br/>
+{this.state.customers.country}<br/>
+{this.state.customers.postalcode}<br/>
+
+</td></tr>
+
+<tr><td id="cust">
+
+Age:
+</td>
+<td>
+
+{this.state.customers.age}
+
+</td></tr>
+</table>
+
+</div>
+
+    );
+  }
+
+};
+
+class History extends React.Component {
+constructor(){
+super();
+this.state = {
+      error: null,
+      isLoaded: false,
+      pictures:[],
+
+    };
+}
+componentDidMount() {
+    fetch('https://7ompe7nz1m.execute-api.us-east-1.amazonaws.com/Dev/history/100')
+      .then(results =>{
+	  return results.json();})
+      .then(
+        data => {
+		this.setState({
+            isLoaded: true,
+            pictures: data
+          });
+		  },
+		  (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        })
+		}
+
+
+ render()
+{
+
+var list=this.state.pictures;
+
+  var namesList=list.map( ( {id, history,transactionDate} ) => {
+    return <tr><td>{id.n}</td>  <td>{history.s}</td>  <td>{transactionDate.s}</td> </tr>
+
+})
+
+const { error, isLoaded, pictures } = this.state;
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+
+      return (
+
+
+		<div className="col-lg-6" id="white">
+                <div>
+<br></br>
+
+ <ul className="nav nav-pills nav-stacked">
+    <li className="active"><a href="#">History</a></li>
+
+  </ul> </div><br/>
+<hr/>
+		 <table id="his"><th>ID</th><th>History</th><th>TransactionDate</th>
+		 {namesList}</table>
+<hr/>
+		</div>
+    );
+  }
+}
+};
+
+class Fraudlent extends React.Component {
+  constructor() {
+    super();
+
+    // Initial state
+    this.state = { open: false };
+
+  }
+
+  toggle() {
+    this.setState({
+      open: !this.state.open
+    });
+  }
+  render() {
+    return (
+      <div className='col-lg-6' id="fraud">
+<br></br>
+ <ul className="nav nav-pills nav-stacked">
+    <li className="active"><a href="#">Fraudlent Details</a></li>
+<br/>
+<hr/>
+<div className="row" id="indent">
+<div className="col-lg-9">
+  <strong>Is the call is suspect as a Fraudulent ?? Click to Audit </strong>
+</div>
+<div className="col-lg-3">
+<label className="switch">
+  <input type="checkbox" onClick={this.toggle.bind(this)}/>
+  <span className="slider round"></span>
+</label>
+</div>
+<div className="col-lg-9">
+  <br/>
+  Customer Voice Biometrics Index :<strong> 3.5 </strong><br/>
+  Number of calls ( last 6 months): <strong>23 </strong><br/>
+  Incorrect verification attempts ( last 6 months):<strong> 5 </strong>
+</div>
+</div>
+<hr/>
+
+  </ul>
+</div>
+
+
+    );
+  }
+
+};
+class Prediction extends React.Component {
+
+  render() {
+    return (
+
+		<div className="col-lg-6" id="predict">
+
+ <div>
+<br></br>
+
+<ul className="nav nav-pills nav-stacked">
+<li className="active"><a href="#">Prediction</a></li>
+</ul> </div>
+<hr/>
+
+<span> &#10004; Customer opted for Voice bio-metrics</span>
+  
+<br/><br/>
+<strong>Transaction Analysis :</strong> <br/>
+<span>Customer booked an international trip, suggest <strong> travel marker</strong></span>
+<hr/>
+<strong>Frequently used services :</strong> <br/><br/>
+<div className="row" >
+<div className="col-lg-4">
+Make a Payment <span className="badge">10</span>
+</div>
+
+<div className="col-lg-4">
+
+Balance Enquiry <span className="badge">6</span>
+</div>
+<div className="col-lg-3">
+
+Fund Transfer <span className="badge">2</span>
+</div>
+
+</div>
+<hr/>
+</div>
+    );
+  }
+
+};
+
+class Notepad extends React.Component {
+
+  render() {
+    return (
+
+
+
+<div>
+<div>
+<br></br>
+<ul className="nav nav-pills nav-stacked">
+<li className="active"><a href="#">Notepad</a></li>
+</ul> </div><br/>
+
+<div className="col-lg-12">
+<div>  <form>
+ <div className="form-group">
+   <textarea className="form-control" rows="12" id="comment"></textarea>
+    </div>
+  </form>
+</div></div>
+</div>
+
+    );
+  }
+
+};
+
+
+class AgentInfo extends React.Component {
+
+  render() {
+    return (
+<div>
+
+<div className="col-lg-12">
+<br/>
+  <a href="#">
+          <span className="glyphicon glyphicon-user"></span>  Agent Info
+        </a>
+
+<br/>
+
+
+
+</div>
+</div>
+
+    );
+  }
+
+};
+
+class Offerings extends React.Component {
+
+  render() {
+    return (
+<div>
+<div>
+<br></br><br></br><br></br>
+<ul className="nav nav-pills nav-stacked">
+<li className="active"><a href="#">Activities</a></li>
+</ul> </div><br/>
+
+
+
+
+<div className="col-lg-12" id="activities">
+<br/>
+
+ <a href="#">
+          <span className="glyphicon glyphicon-chevron-right"></span>Fund Transfer
+        </a>
+<br/>
+<br/>
+ <a href="#">
+          <span className="glyphicon glyphicon-chevron-right"></span>Make Payment
+        </a>
+<br/><br/>
+ <a href="#">
+          <span className="glyphicon glyphicon-chevron-right"></span>Order Statements
+        </a>
+<br/><br/>
+ <a href="#">
+          <span className="glyphicon glyphicon-chevron-right"></span>Send Message
+        </a>
+<br/><br/>
+ <a href="#">
+          <span className="glyphicon glyphicon-chevron-right"></span>Order Books
+        </a>
+<br/><br/>
+ <a href="#">
+          <span className="glyphicon glyphicon-chevron-right"></span>Report Lost Stolen
+        </a>
+
+<br/><br/>
+
+</div>
+</div>
+    );
+  }
+
+};
+
+
+
+class Footer extends React.Component {
+
+render(){
+return(
+<div className="footer">
+  <p>Copyright © 2019 The Royal Bank Of Scotland</p>
+</div>
+);}
+}
+ReactDOM.render(
+    <Header/>,
+    document.getElementById('context')
+);
+    </script>
+</body>
+</html>

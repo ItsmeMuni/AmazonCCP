@@ -1,0 +1,305 @@
+<html>
+<head>
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script type="text/javascript"
+	src="amazon-connect-v1.2.0-26-g978b2a4.js"></script>
+
+<style>
+#ccpContainer {
+	width: 320px;
+	height: 465px;
+	overflow: hidden;
+	float: left;
+	margin-left: 22px;
+	padding: 25px;
+}
+</style>
+<!-- <script type="text/javascript">
+    window.myCPP = window.myCPP || {};
+    //replace with the CCP URL for your Amazon Connect instance
+    var ccpUrl = "https://telephonycustomccp.awsapps.com/connect/ccp#/";
+    connect.core.initCCP(containerDiv, {
+        ccpUrl: ccpUrl,        
+        loginPopup: true,         
+        softphone: {
+            allowFramedSoftphone: true
+        }
+    });
+    connect.contact(subscribeToContactEvents);
+    connect.agent(subscribeToAgentEvents);
+    function subscribeToContactEvents(contact) {
+        window.myCPP.contact = contact;
+        logInfoMsg("Subscribing to events for contact");
+        logInfoMsg("Contact attributes are " + JSON.stringify(contact.getAttributes()));
+        contact.onIncoming(handleContactIncoming);
+        contact.onAccepted(handleContactAccepted);
+        contact.onConnected(handleContactConnected);
+        contact.onEnded(handleContactEnded);
+    }
+    function handleContactIncoming(contact) {
+        if (contact) {
+            logInfoEvent("[contact.onIncoming] Contact is incoming. Contact state is " + contact.getStatus().type);
+            document.getElementbyId("AcceptCall").style.display = "block";
+        } else {
+            logInfoEvent("[contact.onIncoming] Contact is incoming. Null contact passed to event handler");
+        }
+    }
+    function handleContactAccepted(contact) {
+        if (contact) {
+            logInfoEvent("[contact.onAccepted] Contact accepted by agent. Contact state is " + contact.getStatus().type);
+            document.getElementbyId("AcceptCall").style.display = "none";
+			document.getElementById("AgentState").innerHTML = 'Connecting';
+        } else {
+            logInfoEvent("[contact.onAccepted] Contact accepted by agent. Null contact passed to event handler");
+        }
+    }
+    function handleContactConnected(contact) {
+        if (contact) {
+            logInfoEvent("[contact.onConnected] Contact connected to agent. Contact state is " + contact.getStatus().type);
+            document.getElementbyId("EndCall").style.display = "block";
+        } else {
+            logInfoEvent("[contact.onConnected] Contact connected to agent. Null contact passed to event handler");
+        }
+    }
+    function handleContactEnded(contact) {
+        if (contact) {
+            logInfoEvent("[contact.onEnded] Contact has ended. Contact state is " + contact.getStatus().type);
+        } else {
+            logInfoEvent("[contact.onEnded] Contact has ended. Null contact passed to event handler");
+        }
+    }
+    function subscribeToAgentEvents(agent) {
+        window.myCPP.agent = agent;
+        //agentGreetingDiv.innerHTML = '<h3>Hi ' + agent.getName() + '!</h3>';
+        logInfoMsg("Subscribing to events for agent " + agent.getName());
+        logInfoMsg("Agent is currently in status of " + agent.getStatus().name);
+        displayAgentStatus(agent.getStatus().name);
+        agent.onRefresh(handleAgentRefresh);
+        agent.onRoutable(handleAgentRoutable);
+        agent.onNotRoutable(handleAgentNotRoutable);
+        agent.onOffline(handleAgentOffline);
+    }
+    function handleAgentRefresh(agent) {
+        logInfoEvent("[agent.onRefresh] Agent data refreshed. Agent status is " + agent.getStatus().name);
+        displayAgentStatus(agent.getStatus().name);
+    }
+    function handleAgentRoutable(agent) {
+        logInfoEvent("[agent.onRoutable] Agent is routable. Agent status is " + agent.getStatus().name);
+        displayAgentStatus(agent.getStatus().name);
+    }
+    function handleAgentNotRoutable(agent) {
+        logInfoEvent("[agent.onNotRoutable] Agent is online, but not routable. Agent status is " + agent.getStatus().name);
+        displayAgentStatus(agent.getStatus().name);
+    }
+    function handleAgentOffline(agent) {
+        logInfoEvent("[agent.onOffline] Agent is offline. Agent status is " + agent.getStatus().name);
+        displayAgentStatus(agent.getStatus().name);
+    }
+    /* function logMsgToScreen(msg) {
+        logMsgs.innerHTML = '<div>' + new Date().toLocaleTimeString() + ' ' + msg + '</div>' + logMsgs.innerHTML;
+    }
+    function logEventToScreen(msg) {
+        eventMsgs.innerHTML = '<div>' + new Date().toLocaleTimeString() + ' ' + msg + '</div>' + eventMsgs.innerHTML;
+    }
+    function logInfoMsg(msg) {
+        connect.getLog().info(msg);
+        logMsgToScreen(msg);
+    }
+    function logInfoEvent(eventMsg) {
+        connect.getLog().info(eventMsg);
+        logEventToScreen(eventMsg);
+    } */
+    function displayAgentStatus(status) {
+    	AgentState.innerHTML = 'Status: <span style="font-weight: bold">' + status + '</span>';
+    }
+    /* function goAvailable() {
+        var routableState = window.myCPP.agent.getAgentStates().filter(function (state) {
+            return state.type === connect.AgentStateType.ROUTABLE;
+        })[0];
+        window.myCPP.agent.setState(routableState, {
+            success: function () {
+                logInfoMsg("Set agent status to Available (routable) via Streams")
+            },
+            failure: function () {
+                logInfoMsg("Failed to set agent status to Available (routable) via Streams")
+            }
+        });
+    }
+    function goOffline() {
+        var offlineState = window.myCPP.agent.getAgentStates().filter(function (state) {
+            return state.type === connect.AgentStateType.OFFLINE;
+        })[0];
+        window.myCPP.agent.setState(offlineState, {
+            success: function () {
+                logInfoMsg("Set agent status to Offline via Streams")
+            },
+            failure: function () {
+                logInfoMsg("Failed to set agent status to Offline via Streams")
+            }
+        });
+    } */
+    function acceptContact() {
+        window.myCPP.contact.accept({
+            success: function () {
+                logInfoMsg("Accepted contact via Streams");
+            },
+            failure: function () {
+                logInfoMsg("Failed to accept contact via Streams");
+            }
+        });
+    }
+    function disconnectContact() {
+        //cannot do contact.destroy(), can only destroy (hang-up) agent connection
+        window.myCPP.contact.getAgentConnection().destroy({
+            success: function () {
+                logInfoMsg("Disconnected contact via Streams");
+            },
+            failure: function () {
+                logInfoMsg("Failed to disconnect contact via Streams");
+            }
+        });
+    }
+</script> -->
+</head>
+<body>
+
+
+
+	<div id="ccp"
+		style="width: 100%; height: 50%; border-style: none none inset none;">
+		<div id="login"
+			style="width: 20%; float: left; height: 100%; border-style: none inset none none;">
+			Agent Details:<br /> <label for="Extension">Extension:</label>
+			<pre id="Extension"></pre>
+			<label for="AgentState">Current State:</label>
+			<pre id="AgentState"></pre>
+			<input id="AcceptCall" type="button" value="Accept" onclick="acceptContact()"> 
+				<input id="RejectCall" type="button" value="Reject" onclick="disconnectContact()">
+		</div>
+
+
+		<div id="CC_Screenpop" style="width: 79%; float: right; height: 100%">
+			<div id="screenpop"
+				style="height: 75%; border-style: none none inset none;">
+				<div id="leftIVR"
+					style="width: 29%; height: 100%; float: left; border-style: none inset none none;">
+					<div id=logo style="height: 50%"></div>
+					Left IVR:
+					<p id="leftIVRMesage">
+				</div>
+				<div id="Cust details"
+					style="width: 80%; height: 100%; float: right"></div>
+			</div>
+			<div id="callcontrol" style="height: 25%; width: 100%">
+				<input type="button" value="End call">
+			</div>
+		</div>
+		<div id="Main" style="eidth: 100%; height: 50%"></div>
+
+	</div>
+
+
+	<section id="ccpContainer">
+		<script>
+var container = document.getElementById("ccpContainer");
+
+connect.core.initCCP(
+container,{
+ccpUrl: 'https://amazonconnectbootcamplondon.awsapps.com/connect/ccp#/',
+softphone: {
+allowFramedSoftphone : false,
+disableRingtone:false
+}
+}
+)
+/*connect.contact(function(contact){
+contact.onConnecting(function(contact){
+console.log("CDEBUG >> " + "onConnecting() >> Connect ID = " + contact.contactID);
+var phoneNumber = contact.getConnection()[1].getAddress()['phoneNumber'];
+var state = contact.getState();
+console.log(JSON.stringify(connect.getConnection()[1]));
+
+});
+});*/
+
+/* connect.contact(function(contact){
+                    //--------CCP OnConnecting-----------------
+                    /*contact.onConnecting(function(contact){
+                        console.log("CDEBUG >> " + "onConnecting() >> contactId = " + contact.contactId);
+
+                        var phoneNumber = contact.getConnections()[1].getAddress()['phoneNumber'];
+                        console.log("CDEBUG >> " + "onConnecting() >> phonenumber = " + phoneNumber);
+						//var c2 = c.getStatus();
+						$("#divdetails").append (phoneNumber);
+						//$("#state").append (c2.timestamp);
+						
+                        //add details to DIV
+                        //$("#divDetails").append("<hr/> ALERTING CALL " + contact.contactId + 
+                       // " from " + EmployeeName +" <"+ phoneNumber + "> at " + new Date().toLocaleString() + "<br/><br/>");
+                    });
+                });*/
+               
+/* connect.agent(function(agent){
+	agent.onRefresh(function(agent){
+		var state = agent.getState().name;
+		document.getElementById ("AgentState").innerHTML = agent.getState().name;
+		document.getElementById ("Extension").innerHTML = agent.getExtension();
+	});
+	
+
+	
+}); */
+</script>
+	</section>
+</body>
+</html>
+
+<script type="text/javascript">
+
+	
+	connect.contact(contactEvents);
+	connect.agent(agentEvents);
+
+	function agentEvents(agent) {
+		var existingAgent = agent;
+		agent.onRefresh(agentOnRefreshEvents);
+	}
+	
+	function contactEvents(contact){
+		var existingContact = contact;
+	}
+
+	function agentOnRefreshEvents(agent) {
+		document.getElementById("AgentState").innerHTML = agent.getState().name;
+		document.getElementById("Extension").innerHTML = agent.getExtension();
+	}
+
+	function acceptContact() {
+		
+		connect.contact(function(obj){
+			obj.accept({
+				success : function() {
+					logInfoMsg("Accepted contact via Streams");
+				},
+				failure : function() {
+					logInfoMsg("Failed to accept contact via Streams");
+				}
+			});
+		});
+	}
+	
+	
+	function disconnectContact() {
+		connect.contact(function(contact) {
+			contact.getAgentConnection().destroy({
+				success : function() {
+					logInfoMsg("Disconnected contact via Streams");
+				},
+				failure : function() {
+					logInfoMsg("Failed to disconnect contact via Streams");
+				}
+			});
+		});
+	}
+</script>
